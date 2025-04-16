@@ -1,0 +1,92 @@
+body {
+    background-color: #d4cab4;
+}
+
+.container-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.container-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.title-wrapper {
+    margin-bottom: 25px;
+}
+
+.title-bar {
+    font-size: 50px;
+    text-align: center;
+    margin: 10px;
+}
+
+.subtitle-bar {
+    font-size: 20px;
+    text-align: center;
+}
+
+.input-wrapper {
+    width: 100%
+}
+
+.check-wrapper {
+    margin-bottom: 25px;
+}
+
+.check-action-wrapper {
+    margin: 10px;
+    background-color: #e8cc8e;
+    color: #000000;
+    padding: 10px;
+    border: 1px solid #000000;
+}
+
+.label {
+    margin: 0;
+    padding: 0;
+}
+
+.text-wrapper {
+    width: 100%;
+}
+
+.txtarea-wrapper {
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.txtarea-wrapper textarea {
+    resize: none;
+    width: 85%;
+}
+
+.submit-button {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.submit-button:hover {
+    background-color: #ffff00;
+    color: #000000;
+}
+
+.back-button {
+    background-color: #ffaabb;
+    color: #ffffff;
+    margin: 5px;
+}
+
+.back-button a {
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background-color: #ffa500;
+    color: #000000;
+}

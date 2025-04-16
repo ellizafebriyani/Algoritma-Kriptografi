@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Simple Crypto App</title>
+        <link rel="stylesheet" href="../static/css/pager-style.css">
+        <script src="../static/js/script.js"></script>
+    </head>
+
+    <body>
+
+        <!-- Title part-->
+        <div class="title-wrapper container-col">
+            <div class="title-bar">
+                Vigenere Cipher
+            </div>
+            <div class="subtitle-bar">
+                method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword
+            </div>
+        </div>
+        
+        <!-- Form part-->
+        <form action="{{ url_for('view_vigenere_result') }}" method="post" enctype="multipart/form-data" id="upload">
+            
+            <!-- Input wrapper -->
+            <div class="input-wrapper container-col">
+                <div class="check-wrapper">
+                    <div class="container-row">
+                        <div class="check-action-wrapper">
+                            <h4 class="label">Select the action</h4>
+                            <input type="radio" id="enc" name="act" value="enc" checked>
+                            <label for="enc">Encrypt</label><br>
+                            <input type="radio" id="dec" name="act" value="dec">
+                            <label for="dec">Decrypt</label><br>
+                        </div>
+    
+                        <div class="check-action-wrapper">
+                            <h4 class="label">Select output type</h4>
+                            <input type="radio" id="txt" name="type-out" value="txt" checked>
+                            <label for="txt">Text</label><br>
+                            <input type="radio" id="fil" name="type-out" value="file">
+                            <label for="fil">File</label><br>
+                        </div>
+                    </div>
+                    
+                    <div class="check-action-wrapper">
+                        <h4 class="label">Select the format (only for encryption)</h4>
+                        <input type="radio" id="original" name="format" value="ori" checked>
+                        <label for="original">Original</label><br>
+                        <input type="radio" id="block" name="format" value="block">
+                        <label for="block">Blocked 5 letters</label><br>
+                    </div>
+                    
+                    <div class="check-action-wrapper">
+                        <h4 class="label">Input key</h4>
+                        <input type="text" name="key" value="{{ key }}"> 
+                    </div>
+                </div>
+                
+                <div class="text-wrapper container-row">
+                    <div class="txtarea-wrapper container-col">
+                        <h4 class="label">Input your text</h4>
+                        <textarea name="message" rows="10" cols="30">{{ inputtext }}</textarea>
+                    </div>
+                    <div class="txtarea-wrapper container-col">
+                        <h4 class="label">Result</h4>
+                        <textarea rows="10" cols="30" readonly>{{ result }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Button wrapper -->
+        <div class="container-col">
+            <div>
+                <button class="submit-button" value="Upload" onclick="submitAll()"><span>Submit</span></button>
+            </div>
+            <button class="back-button">  
+                <a href="{{ url_for('landing') }}">
+                    <div class='c-button'>Back to Menu</div>
+                </a>
+            </button>
+        </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Simple Crypto App</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/index-style.css">
+    </head>
+
+    <body>
+
+        <div class="title-wrapper container-col">
+            <div class="title">Simple Crypto App</div>
+            <div class="subtitle">Made using Flask!</div>
+        </div>
+        
+
+        <div class="container-col">
+            <div class="label">Choose the classical cipher</div>
+            <hr class="line-decoration">
+        </div>
+        
+        <div class="container-row">
+
+            <div class="container-col opt-divider">
+                <a href="{{ url_for('view_cipher_page', cipher='vigenere') }}">
+                    <div class='c-button'>vigenere Cipher</div>
+                </a>
+                
+                <a href="{{ url_for('view_cipher_page', cipher='fullvigenere') }}">
+                    <div class='c-button'>Full Vigenere Cipher</div>
+                </a>
+        
+                <a href="{{ url_for('view_cipher_page', cipher='rkvigenere') }}">
+                    <div class='c-button'>Running Key Vigenere Cipher</div>
+                </a>
+        
+                <a href="{{ url_for('view_cipher_page', cipher='extvigenere') }}">
+                    <div class='c-button'>Extended Vigenere Cipher</div>
+                </a>
+        
+                <a href="{{ url_for('view_cipher_page', cipher='playfair') }}">
+                    <div class='c-button'>Playfair Cipher</div>
+                </a>
+            </div>
+
+            <div class="container-col opt-divider">
+                <a href="{{ url_for('view_cipher_page', cipher='superenc') }}">
+                    <div class='c-button'>Super Encryption</div>
+                </a>
+        
+                <a href="{{ url_for('view_cipher_page', cipher='affine') }}">
+                    <div class='c-button'>Affine Cipher</div>
+                </a>
+        
+                <a href="{{ url_for('view_cipher_page', cipher='hill') }}">
+                    <div class='c-button'>Hill Cipher</div>
+                </a>
+        
+                <a href="{{ url_for('view_cipher_page', cipher='enigma') }}">
+                    <div class='c-button'>Enigma Cipher</div>
+                </a>
+            </div>
+        </div>
+        
+    </body>
+
+</html>

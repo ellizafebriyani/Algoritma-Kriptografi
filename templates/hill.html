@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Simple Crypto App</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/pager-style.css">
+        <script src="../static/js/script.js"></script>
+    </head>
+
+    <body>
+        <div class="title-wrapper container-col">
+            <div class="title-bar">
+                Hill Encryption
+            </div>
+            <div class="subtitle-bar">
+                an encryption method based on linear algebra
+            </div>
+        </div>
+
+        <form action="{{ url_for('view_hill_result') }}" method="post" enctype="multipart/form-data" id="upload">
+            <div class="input-wrapper container-col">
+                <div class="check-wrapper">
+                    <div class="container-row">
+                        <div class="check-action-wrapper">
+                            <h4 class="label">Select the action</h4>
+                            <input type="radio" id="enc" name="act" value="enc" checked>
+                            <label for="enc">Encrypt</label><br>
+                            <input type="radio" id="dec" name="act" value="dec">
+                            <label for="dec">Decrypt</label><br>
+                        </div>
+    
+                        <div class="check-action-wrapper">
+                            <h4 class="label">Select output type</h4>
+                            <input type="radio" id="txt" name="type-out" value="txt" checked>
+                            <label for="txt">Text</label><br>
+                            <input type="radio" id="fil" name="type-out" value="file">
+                            <label for="fil">File</label><br>
+                        </div>
+                    </div>
+
+                    <div class="check-action-wrapper">
+                        <h4 class="label">Select the display format (only for encryption)</h4>
+                        <input type="radio" id="original" name="format" value="ori" checked>
+                        <label for="original">Original</label><br>
+                        <input type="radio" id="block" name="format" value="block">
+                        <label for="block"> Blocked per 5 letters</label><br>
+                    </div>
+
+                    <!-- TODO: create matrix input and verification if inverse exist-->
+                    <div class="check-action-wrapper">
+                        <h4 class="label"> Input Matrix Key 3x3</h4>
+                        <h6 class="label"> Format: a,b,c (without space)</h6>
+                        <input type="text" name="key_0" value="{{ key_0 }}">
+                        <br>
+                        <input type="text" name="key_1" value="{{ key_1 }}">
+                        <br>
+                        <input type="text" name="key_2" value="{{ key_2 }}">
+                    </div>
+                    
+                    <h4 class="label">{{ validate }}</h4>
+
+                </div>
+
+                <div class="text-wrapper container-row">
+                    <div class="txtarea-wrapper container-col">
+                        <h4 class="label">Input your text</h4>
+                        <textarea name="message" rows="10" cols="30">{{ inputtext }}
+                        </textarea>  
+                    </div>
+
+                    <div class="txtarea-wrapper container-col">
+                        <h4 class="label">Cipher Result</h4>
+                        <textarea rows="10" cols="30">{{ result }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="container-col">
+            <div>
+                <button class="submit-button" value="Upload" onclick="submitAll()"><span>Submit</span></button>
+            </div>
+            <button class="back-button">
+                <a href="{{ url_for('landing') }}">
+                    <div class="c-button">
+                        Back to Menu
+                    </div>
+                </a>
+            </button>
+        </div>
+        
+    </body>
+
+</html>
