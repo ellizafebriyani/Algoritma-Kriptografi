@@ -1,5 +1,5 @@
 body {
-    background-color: #d4cab4;
+    background-color: #F8F8FF;
 }
 
 .container-col {
@@ -8,12 +8,26 @@ body {
     align-items: center;
     align-content: center;
 }
+/*code baru*/
+.container-row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; /* beri jarak antar kolom */
+    flex-wrap: wrap; /* biar responsif di layar kecil */
+    justify-content: space-between;
+}
 
+.form-side, .text-side {
+    flex: 1;
+    min-width: 300px; /* biar tetap bagus saat layar kecil */
+}/*smpe sini code baru*/
+
+/*ini code asli
 .container-row {
     display: flex;
     flex-direction: row;
     justify-content: center;
-}
+}*/
 
 .title-wrapper {
     margin-bottom: 25px;
@@ -26,7 +40,7 @@ body {
 }
 
 .subtitle-bar {
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
 }
 
@@ -40,7 +54,7 @@ body {
 
 .check-action-wrapper {
     margin: 10px;
-    background-color: #e8cc8e;
+    background-color: #8eb5e8;
     color: #000000;
     padding: 10px;
     border: 1px solid #000000;
@@ -55,6 +69,10 @@ body {
     width: 100%;
 }
 
+.txtarea-wrapper {
+    width: 100%;
+    margin-bottom: 20px;
+}
 .txtarea-wrapper {
     width: 100%;
     padding-right: 10px;
@@ -77,8 +95,8 @@ body {
 }
 
 .back-button {
-    background-color: #ffaabb;
-    color: #ffffff;
+    background-color: #ffff00;
+    color: #000000;
     margin: 5px;
 }
 

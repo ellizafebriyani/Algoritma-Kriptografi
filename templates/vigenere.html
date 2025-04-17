@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Simple Crypto App</title>
+        <title>Aplikasi Kriptografi Sederhana</title>
         <link rel="stylesheet" href="../static/css/pager-style.css">
         <script src="../static/js/script.js"></script>
     </head>
@@ -14,26 +14,28 @@
                 Vigenere Cipher
             </div>
             <div class="subtitle-bar">
-                Vigenère Cipher adalah salah satu metode kriptografi klasik yang digunakan untuk 
-                mengenkripsi teks dengan cara menggabungkan huruf-huruf dari pesan asli (plaintext) dengan huruf-huruf dari kata kunci (key). 
+                Vigenère Cipher adalah salah satu metode kriptografi klasik yang digunakan untuk mengenkripsi teks 
+                dengan cara menggabungkan huruf-huruf dari pesan asli (plaintext) dengan huruf-huruf dari kata kunci (key).
             </div>
         </div>
         
         <!-- Form part-->
         <form action="{{ url_for('view_vigenere_result') }}" method="post" enctype="multipart/form-data" id="upload">
-            
-            <!-- Input wrapper -->
-            <div class="input-wrapper container-col">
-                <div class="check-wrapper">
-                    <div class="container-row">
+
+            <!-- Input wrapper menjadi 2 kolom -->
+            <div class="input-wrapper container-row">
+                
+                <!-- Kiri: form-side -->
+                <div class="form-side container-col">
+                    <div class="check-wrapper">
                         <div class="check-action-wrapper">
                             <h4 class="label">Select the action</h4>
                             <input type="radio" id="enc" name="act" value="enc" checked>
-                            <label for="enc">Encrypt</label><br>
+                            <label for="enc">Enkripsi</label><br>
                             <input type="radio" id="dec" name="act" value="dec">
-                            <label for="dec">Decrypt</label><br>
+                            <label for="dec">Deskripsi</label><br>
                         </div>
-    
+
                         <div class="check-action-wrapper">
                             <h4 class="label">Select output type</h4>
                             <input type="radio" id="txt" name="type-out" value="txt" checked>
@@ -41,23 +43,24 @@
                             <input type="radio" id="fil" name="type-out" value="file">
                             <label for="fil">File</label><br>
                         </div>
-                    </div>
-                    
-                    <div class="check-action-wrapper">
-                        <h4 class="label">Select the format (only for encryption)</h4>
-                        <input type="radio" id="original" name="format" value="ori" checked>
-                        <label for="original">Original</label><br>
-                        <input type="radio" id="block" name="format" value="block">
-                        <label for="block">Blocked 5 letters</label><br>
-                    </div>
-                    
-                    <div class="check-action-wrapper">
-                        <h4 class="label">Input key</h4>
-                        <input type="text" name="key" value="{{ key }}"> 
+
+                        <div class="check-action-wrapper">
+                            <h4 class="label">Pilih format (hanya untuk enkripsi)</h4>
+                            <input type="radio" id="original" name="format" value="ori" checked>
+                            <label for="original">Tanpa Spasi</label><br>
+                            <input type="radio" id="block" name="format" value="block">
+                            <label for="block">Diblokir 5 huruf</label><br>
+                        </div>
+
+                        <div class="check-action-wrapper">
+                            <h4 class="label">Input key</h4>
+                            <input type="text" name="key" value="{{ key }}">
+                        </div>
                     </div>
                 </div>
-                
-                <div class="text-wrapper container-row">
+
+                <!-- Kanan: text-side -->
+                <div class="text-side container-col">
                     <div class="txtarea-wrapper container-col">
                         <h4 class="label">Input your text</h4>
                         <textarea name="message" rows="10" cols="30">{{ inputtext }}</textarea>
@@ -81,7 +84,6 @@
                 </a>
             </button>
         </div>
-
     </body>
 
 </html>
