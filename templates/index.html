@@ -1,66 +1,135 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Aplikasi Kriptografi Sederhana</title>
+        <title>Aplikasi Kriptografi Klasik</title>
         <link rel="stylesheet" type="text/css" href="../static/css/index-style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     </head>
 
     <body>
-
-        <div class="title-wrapper container-col">
-            <div class="title">Aplikasi Kriptografi Sederhana</div>
-            <div class="subtitle">Made using Framework Flask!</div>
+        <div class="header">
+            <div class="theme-toggle-container">
+                <div class="theme-toggle">
+                    <input type="checkbox" id="darkmode-toggle">
+                    <label for="darkmode-toggle">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="title-wrapper">
+                <div class="title">Aplikasi Kriptografi Klasik</div>
+                <div class="subtitle">Program Enkripsi-Deskripsi dengan Framework Flask!</div>
+            </div>
         </div>
         
-
-        <div class="container-col">
-            <div class="label">Pilih Chiper Algoritma Berdasarkan</div>
-            <hr class="line-decoration">
-        </div>
-        
-        <div class="container-row">
-
-            <div class="container-col opt-divider">
-                <a href="{{ url_for('view_cipher_page', cipher='vigenere') }}">
-                    <div class='c-button'>Vigenere Cipher</div>
+        <div class="content-section">
+            <div class="cipher-label">Pilih Jenis Cipher:</div>
+            
+            <div class="cipher-list">
+                <a href="{{ url_for('view_cipher_page', cipher='vigenere') }}" class="cipher-card">
+                    <div class="icon-container">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="cipher-info">
+                        <div class="cipher-title">Vigenère Cipher</div>
+                        <div class="cipher-description">Vigenère Cipher adalah salah satu metode kriptografi klasik yang digunakan untuk mengenkripsi teks 
+                            dengan cara menggabungkan huruf-huruf dari pesan asli (plaintext) dengan huruf-huruf dari kata kunci (key)</div>
+                    </div>
+                    <div class="chevron-container">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 </a>
                 
-                <a href="{{ url_for('view_cipher_page', cipher='fullvigenere') }}">
-                    <div class='c-button'>Full Vigenere Cipher</div>
+                <a href="{{ url_for('view_cipher_page', cipher='fullvigenere') }}" class="cipher-card">
+                    <div class="icon-container">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="cipher-info">
+                        <div class="cipher-title">Varian Vigenère Cipher</div>
+                        <div class="cipher-description">Auto-key Vigenère Cipher menggunakan sebagian plainteks itu sendiri setelah kunci awal untuk memperpanjang kunci enkripsi</div>
+                    </div>
+                    <div class="chevron-container">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 </a>
-        
-                <a href="{{ url_for('view_cipher_page', cipher='rkvigenere') }}">
-                    <div class='c-button'>Running Key Vigenere Cipher</div>
+                
+                <a href="{{ url_for('view_cipher_page', cipher='extvigenere') }}" class="cipher-card">
+                    <div class="icon-container">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="cipher-info">
+                        <div class="cipher-title">Extended Vigenère Cipher</div>
+                        <div class="cipher-description">Extended Vigenère Cipher memperluas algoritma Vigenere agar dapat mengenkripsi semua karakter ASCII (0–255) menggunakan operasi XOR dengan kunci yang diulang</div>
+                    </div>
+                    <div class="chevron-container">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 </a>
-        
-                <a href="{{ url_for('view_cipher_page', cipher='extvigenere') }}">
-                    <div class='c-button'>Extended Vigenere Cipher</div>
+                
+                <a href="{{ url_for('view_cipher_page', cipher='affine') }}" class="cipher-card">
+                    <div class="icon-container">
+                        <i class="fas fa-divide"></i>
+                    </div>
+                    <div class="cipher-info">
+                        <div class="cipher-title">Affine Cipher</div>
+                        <div class="cipher-description">Affine Cipher adalah bentuk substitusi monoalfabetik yang mengenkripsi setiap huruf menggunakan fungsi matematika linier berbentuk E(x) = (ax + b) mod 26 dengan syarat a dan 26 relatif prima</div>
+                    </div>
+                    <div class="chevron-container">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 </a>
-        
-                <a href="{{ url_for('view_cipher_page', cipher='playfair') }}">
-                    <div class='c-button'>Playfair Cipher</div>
+                
+                <a href="{{ url_for('view_cipher_page', cipher='playfair') }}" class="cipher-card">
+                    <div class="icon-container">
+                        <i class="fas fa-th-large"></i>
+                    </div>
+                    <div class="cipher-info">
+                        <div class="cipher-title">Playfair Cipher</div>
+                        <div class="cipher-description">Playfair Cipher mengenkripsi pasangan huruf (digraf) menggunakan matriks 5x5 dan aturan posisi untuk menggantikan setiap pasangan dengan huruf lain berdasarkan letak baris dan kolom</div>
+                    </div>
+                    <div class="chevron-container">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 </a>
-            </div>
-
-            <div class="container-col opt-divider">
-                <a href="{{ url_for('view_cipher_page', cipher='superenc') }}">
-                    <div class='c-button'>Super Encryption</div>
-                </a>
-        
-                <a href="{{ url_for('view_cipher_page', cipher='affine') }}">
-                    <div class='c-button'>Affine Cipher</div>
-                </a>
-        
-                <a href="{{ url_for('view_cipher_page', cipher='hill') }}">
-                    <div class='c-button'>Hill Cipher</div>
-                </a>
-        
-                <a href="{{ url_for('view_cipher_page', cipher='enigma') }}">
-                    <div class='c-button'>Enigma Cipher</div>
+                
+                <a href="{{ url_for('view_cipher_page', cipher='hill') }}" class="cipher-card">
+                    <div class="icon-container">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="cipher-info">
+                        <div class="cipher-title">Hill Cipher</div>
+                        <div class="cipher-description">Hill Cipher menggunakan aljabar linear dan matriks invertibel untuk mengenkripsi blok huruf dengan mengalikan vektor huruf dengan matriks kunci modulo 26</div>
+                    </div>
+                    <div class="chevron-container">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 </a>
             </div>
         </div>
         
+        <script>
+            // Check for saved theme preference or default to light theme
+            const darkModeToggle = document.getElementById('darkmode-toggle');
+            
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-theme');
+                darkModeToggle.checked = true;
+            }
+            
+            // Toggle dark/light mode
+            darkModeToggle.addEventListener('change', () => {
+                if (darkModeToggle.checked) {
+                    document.body.classList.add('dark-theme');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        </script>
     </body>
-
 </html>

@@ -1,6 +1,7 @@
+import math
 from flask import Flask, render_template, request, send_file
 import classic.vigenere, classic.fullvigenere, classic.rkvigenere, classic.extvigenere, classic.playfair, classic.util
-import classic.affine, classic.enigma, classic.hill, classic.superenc
+import classic.affine, classic.hill, classic.superenc
 import os
 
 app = Flask(__name__)
@@ -214,60 +215,110 @@ def view_affine_result():
 @app.route('/hill', methods=['POST'])
 def view_hill_result():
     msg = classic.util.alphabetify(request.form["message"])
-    key_0 = request.form["key_0"]
-    key_1 = request.form["key_1"]
-    key_2 = request.form["key_2"]
-    key_matrix = [list(map(int, request.form[f"key_{i}"].split(','))) for i in range(3)]
-    validation_msg = ""
-
-    check_determinant = classic.hill.determinant_matrix(key_matrix)
-    if(classic.hill.inverse(check_determinant, 26) == -1):
-        validation_msg = "Can't use this matrix as key, because it doesn't have inverse in modulo 26!"
-        return render_template("hill.html", inputtext=msg, key_0=key_0, key_1=key_1, key_2=key_2, validate=validation_msg)
-
-    if request.form["act"] == "enc":
-        result = classic.hill.encrypt(msg, key_matrix)
-    else:
-        result = classic.hill.decrypt(msg, key_matrix)
     
-    if request.form["format"] == "block":
-        result = classic.util.blockify(result)
+    # Get matrix size
+    matrix_size = int(request.form.get("matrix-size", "3"))
     
-    if request.form["type-out"] == "file":
-        f_path = app.config['UPLOAD_FOLDER'] + "/" + request.form["act"] + ".txt"
-        f = open(f_path, "w")
-        f.write(result)
-        f.close()
-        return send_file(f_path, as_attachment=True)
-
-    return render_template("hill.html", result=result, inputtext=msg, key_0=key_0, key_1=key_1, key_2=key_2, validate=validation_msg)
-
-@app.route('/enigma', methods=['POST'])
-def view_enigma_result():
-    msg = classic.util.alphabetify(request.form["message"])
-    rotors = [request.form[f"rotor_{i}"] for i in range(1,4)]
-    reflector = request.form["reflector"]
-    plugboard = request.form["plugboard"]
-    ring = request.form["ring"]
-    position = request.form["position"]
-
-    if request.form["act"] == "enc":
-        result = classic.enigma.encrypt(msg, rotors, reflector, plugboard, ring, position)
-    else:
-        result = classic.enigma.decrypt(msg, rotors, reflector, plugboard, ring, position)
+    # Get key values based on matrix size
+    key_values = []
+    for i in range(matrix_size):
+        key_name = f"key_{i}"
+        if key_name in request.form:
+            key_values.append(request.form[key_name])
+        else:
+            # Missing key input
+            error_message = f"Input matriks tidak lengkap. Diperlukan {matrix_size} baris."
+            return render_template("hill.html", 
+                                  inputtext=msg, 
+                                  error_message=error_message,
+                                  matrix_size=str(matrix_size))
     
-    if request.form["format"] == "block":
-        result = classic.util.blockify(result)
+    # Validate key matrix format and parse into a matrix
+    try:
+        key_matrix = []
+        for i in range(matrix_size):
+            row_values = key_values[i].split(',')
+            
+            # Check if row has correct number of elements
+            if len(row_values) != matrix_size:
+                error_message = f"Baris {i+1} harus memiliki tepat {matrix_size} angka yang dipisahkan koma."
+                return render_template("hill.html", 
+                                      inputtext=msg, 
+                                      error_message=error_message,
+                                      matrix_size=str(matrix_size),
+                                      **{f"key_{j}": key_values[j] for j in range(len(key_values))})
+            
+            # Convert to integers
+            try:
+                row = list(map(int, row_values))
+                key_matrix.append(row)
+            except ValueError:
+                error_message = f"Format input tidak valid pada baris {i+1}. Masukkan angka yang dipisahkan koma."
+                return render_template("hill.html", 
+                                      inputtext=msg, 
+                                      error_message=error_message,
+                                      matrix_size=str(matrix_size),
+                                      **{f"key_{j}": key_values[j] for j in range(len(key_values))})
     
-    if request.form["type-out"] == "file":
-        f_path = app.config['UPLOAD_FOLDER'] + "/" + request.form["act"] + ".txt"
-        f = open(f_path, "w")
-        f.write(result)
-        f.close()
-        return send_file(f_path, as_attachment=True)
+    except Exception as e:
+        # General format error
+        error_message = f"Format matriks tidak valid: {str(e)}"
+        return render_template("hill.html", 
+                             inputtext=msg, 
+                             error_message=error_message,
+                             matrix_size=str(matrix_size),
+                             **{f"key_{j}": key_values[j] for j in range(len(key_values))})
+    
+    # Check if matrix is invertible
+    check_determinant = classic.hill.determinant_matrix(key_matrix, matrix_size)
+    if math.gcd(check_determinant % 26, 26) != 1:
+        error_message = f"Matriks {matrix_size}x{matrix_size} ini tidak dapat digunakan sebagai kunci karena tidak memiliki invers dalam modulo 26!"
+        return render_template("hill.html", 
+                             inputtext=msg, 
+                             error_message=error_message,
+                             matrix_size=str(matrix_size),
+                             **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
-    return render_template("enigma.html", result=result, inputtext=msg, reflector=reflector, plugboard=plugboard, position=position, ring=ring, rotor_1=rotors[0], rotor_2=rotors[1], rotor_3=rotors[2])
-    pass
+    # Process encryption/decryption
+    try:
+        if request.form["act"] == "enc":
+            result = classic.hill.encrypt(msg, key_matrix, size=matrix_size)
+        else:
+            result = classic.hill.decrypt(msg, key_matrix, matrix_size)
+            
+            # Check if there was an error in decryption
+            if result.startswith("ERROR:"):
+                error_message = result[6:]  # Remove "ERROR:" prefix
+                return render_template("hill.html", 
+                                     inputtext=msg, 
+                                     error_message=error_message,
+                                     matrix_size=str(matrix_size),
+                                     **{f"key_{j}": key_values[j] for j in range(len(key_values))})
+        
+        if request.form["format"] == "block":
+            result = classic.util.blockify(result)
+        
+        if request.form["type-out"] == "file":
+            f_path = app.config['UPLOAD_FOLDER'] + "/" + request.form["act"] + ".txt"
+            f = open(f_path, "w")
+            f.write(result)
+            f.close()
+            return send_file(f_path, as_attachment=True)
+
+        return render_template("hill.html", 
+                             result=result, 
+                             inputtext=msg, 
+                             matrix_size=str(matrix_size),
+                             **{f"key_{j}": key_values[j] for j in range(len(key_values))})
+    
+    except Exception as e:
+        # Handle any other errors during processing
+        error_message = f"Terjadi kesalahan: {str(e)}"
+        return render_template("hill.html", 
+                             inputtext=msg, 
+                             error_message=error_message,
+                             matrix_size=str(matrix_size),
+                             **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
 
 # Entry point

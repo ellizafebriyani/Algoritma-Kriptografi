@@ -1,86 +1,123 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Simple Crypto App</title>
-        <link rel="stylesheet" href="../static/css/pager-style.css">
-        <script src="../static/js/script.js"></script>
-    </head>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Kriptografi Klasik</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/pager-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="../static/js/script.js"></script>
+</head>
 
-    <body>
+<body>
 
-        <!-- Title part-->
-        <div class="title-wrapper container-col">
-            <div class="title-bar">
-                Running-Key Vigenere Cipher
-            </div>
-            <div class="subtitle-bar">
-                variant of Vigenere Cipher where the key is an initial word appended with the ciphertext
-            </div>
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle-container">
+        <div class="theme-toggle">
+            <input type="checkbox" id="darkmode-toggle">
+            <label for="darkmode-toggle">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </label>
         </div>
-        
-        <!-- Form part-->
-        <form action="{{ url_for('view_rkvigenere_result') }}" method="post" enctype="multipart/form-data" id="upload">
-            
-            <!-- Input wrapper -->
-            <div class="input-wrapper container-col">
-                <div class="check-wrapper">
-                    <div class="container-row">
-                        <div class="check-action-wrapper">
-                            <h4 class="label">Select the action</h4>
-                            <input type="radio" id="enc" name="act" value="enc" checked>
-                            <label for="enc">Encrypt</label><br>
-                            <input type="radio" id="dec" name="act" value="dec">
-                            <label for="dec">Decrypt</label><br>
-                        </div>
-    
-                        <div class="check-action-wrapper">
-                            <h4 class="label">Select output type</h4>
-                            <input type="radio" id="txt" name="type-out" value="txt" checked>
-                            <label for="txt">Text</label><br>
-                            <input type="radio" id="fil" name="type-out" value="file">
-                            <label for="fil">File</label><br>
-                        </div>
-                    </div>
-                    
-                    <div class="check-action-wrapper">
-                        <h4 class="label">Select the format (only for encryption)</h4>
-                        <input type="radio" id="original" name="format" value="ori" checked>
-                        <label for="original">Original</label><br>
-                        <input type="radio" id="block" name="format" value="block">
-                        <label for="block">Blocked 5 letters</label><br>
-                    </div>
-                    
-                    <div class="check-action-wrapper">
-                        <h4 class="label">Input key</h4>
-                        <input type="text" name="key" value="{{ key }}"> 
-                    </div>
-                </div>
-                
-                <div class="text-wrapper container-row">
-                    <div class="txtarea-wrapper container-col">
-                        <h4 class="label">Input your text</h4>
-                        <textarea name="message" rows="10" cols="30">{{ inputtext }}</textarea>
-                    </div>
-                    <div class="txtarea-wrapper container-col">
-                        <h4 class="label">Result</h4>
-                        <textarea rows="10" cols="30" readonly>{{ result }}</textarea>
-                    </div>
+    </div>
+
+    <!-- Title -->
+    <div class="title-wrapper container-col">
+        <div class="title-bar">
+            Running-Key Vigenère Cipher
+        </div>
+        <div class="subtitle-bar">
+            Running-Key Vigenère Cipher adalah varian dari Vigenère Cipher dimana kunci adalah kata awal yang kemudian ditambahkan dengan ciphertext.
+        </div>
+    </div>
+
+    <!-- Form -->
+    <form action="{{ url_for('view_rkvigenere_result') }}" method="post" enctype="multipart/form-data" id="upload">
+        <div class="input-wrapper container-col">
+
+            <div class="card-container">
+                <div class="tab-container">
+                    <input type="radio" id="enc" name="act" value="enc" checked>
+                    <label for="enc" class="tab">Enkripsi</label>
+                    <input type="radio" id="dec" name="act" value="dec">
+                    <label for="dec" class="tab">Deskripsi</label>
                 </div>
             </div>
-        </form>
 
-        <!-- Button wrapper -->
-        <div class="container-col">
-            <div>
-                <button class="submit-button" value="Upload" onclick="submitAll()"><span>Submit</span></button>
+            <div class="card-container">
+                <h4 class="card-title">Jenis Output</h4>
+                <div class="radio-wrapper">
+                    <input type="radio" id="txt" name="type-out" value="txt" checked>
+                    <label for="txt">Text</label>
+                    <input type="radio" id="fil" name="type-out" value="file">
+                    <label for="fil">File</label>
+                </div>
             </div>
-            <button class="back-button">  
-                <a href="{{ url_for('landing') }}">
-                    <div class='c-button'>Back to Menu</div>
-                </a>
-            </button>
+
+            <div class="card-container">
+                <h4 class="card-title">Format Output (untuk Enkripsi)</h4>
+                <div class="radio-wrapper">
+                    <input type="radio" id="original" name="format" value="ori" checked>
+                    <label for="original">Tanpa Spasi</label>
+                    <input type="radio" id="block" name="format" value="block">
+                    <label for="block">Kelompok 5 Huruf</label>
+                </div>
+            </div>
+
+            <div class="card-container">
+                <h4 class="card-title">Kata Kunci (key)</h4>
+                <div class="input-key-wrapper">
+                    <input type="text" name="key" value="{{ key }}" placeholder="Masukkan kata kunci">
+                </div>
+            </div>
+
+            <div class="card-container">
+                <h4 class="card-title">Input Teks Di sini:</h4>
+                <div class="text-input-wrapper">
+                    <textarea name="message" rows="10" cols="30">{{ inputtext }}</textarea>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="submit-button" value="Upload">SUBMIT</button>
+                </div>
+            </div>
+
+            <div class="card-container">
+                <h4 class="card-title">Hasil:</h4>
+                <div class="result-wrapper">
+                    <textarea rows="10" cols="30" readonly>{{ result }}</textarea>
+                </div>
+            </div>
+
         </div>
+    </form>
 
-    </body>
+    <!-- Navigation Buttons -->
+    <div class="container-col">
+        <button class="homepage-button">
+            <a href="{{ url_for('landing') }}">
+                <div class="c-button">
+                    HOMEPAGE
+                </div>
+            </a>
+        </button>
+    </div>
 
+    <!-- Dark Mode Script -->
+    <script>
+        const darkModeToggle = document.getElementById('darkmode-toggle');
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-theme');
+            darkModeToggle.checked = true;
+        }
+        darkModeToggle.addEventListener('change', () => {
+            if (darkModeToggle.checked) {
+                document.body.classList.add('dark-theme');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                document.body.classList.remove('dark-theme');
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+    </script>
+</body>
 </html>

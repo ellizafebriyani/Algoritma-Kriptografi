@@ -1,3 +1,4 @@
+# okta cantik pokoknya
 def encrypt(plaintext, key):
     '''
     For encrypting plaintext with Vignere Cipher
