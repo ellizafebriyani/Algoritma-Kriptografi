@@ -2,13 +2,11 @@ import math
 from flask import Flask, render_template, request, send_file
 import classic.vigenere
 import classic.fullvigenere
-import classic.rkvigenere
 import classic.extvigenere
 import classic.playfair
 import classic.util
 import classic.affine
 import classic.hill
-import classic.superenc
 import os
 
 app = Flask(__name__)
@@ -125,30 +123,6 @@ def view_fullvigenere_result():
     return render_template("fullvigenere.html", result=result, inputtext=msg, key=key)
 
 
-@app.route('/rkvigenere', methods=['POST'])
-def view_rkvigenere_result():
-    msg = classic.util.alphabetify(request.form["message"])
-    key = classic.util.alphabetify(request.form["key"])
-
-    if request.form["act"] == "enc":
-        result = classic.rkvigenere.encrypt(msg, key)
-    else:
-        result = classic.rkvigenere.decrypt(msg, key)
-
-    if request.form["format"] == "block":
-        result = classic.util.blockify(result)
-
-    if request.form["type-out"] == "file":
-        f_path = app.config['UPLOAD_FOLDER'] + \
-            "/" + request.form["act"] + ".txt"
-        f = open(f_path, "w")
-        f.write(result)
-        f.close()
-        return send_file(f_path, as_attachment=True)
-
-    return render_template("rkvigenere.html", result=result, inputtext=msg, key=key)
-
-
 @app.route('/extvigenere', methods=['POST'])
 def view_extvigenere_result():
     key = request.form["key"]
@@ -211,33 +185,6 @@ def view_playfair_result():
 
     return render_template("playfair.html", result=result, inputtext=msg, key=key)
 
-
-@app.route('/superenc', methods=['POST'])
-def view_superenc_result():
-    # TODO
-    msg = classic.util.alphabetify(request.form["message"])
-    key_vigenere = classic.util.alphabetify(request.form["key_vigenere"])
-    key_transposition = int(request.form["key_transposition"])
-
-    if request.form["act"] == "enc":
-        result = classic.superenc.encrypt(msg, key_transposition, key_vigenere)
-    else:
-        result = classic.superenc.decrypt(msg, key_transposition, key_vigenere)
-
-    if request.form["format"] == "block":
-        result = classic.util.blockify(result)
-
-    if request.form["type-out"] == "file":
-        f_path = app.config['UPLOAD_FOLDER'] + \
-            "/" + request.form["act"] + ".txt"
-        f = open(f_path, "w")
-        f.write(result)
-        f.close()
-        return send_file(f_path, as_attachment=True)
-
-    return render_template("superenc.html", result=result, inputtext=msg, key_transposition=key_transposition, key_vigenere=key_vigenere)
-
-
 @app.route('/affine', methods=['POST'])
 def view_affine_result():
     msg = classic.util.alphabetify(request.form["message"])
@@ -286,9 +233,9 @@ def view_hill_result():
             # Missing key input
             error_message = f"Input matriks tidak lengkap. Diperlukan {matrix_size} baris."
             return render_template("hill.html",
-                                   inputtext=msg,
-                                   error_message=error_message,
-                                   matrix_size=str(matrix_size))
+                                inputtext=msg,
+                                error_message=error_message,
+                                matrix_size=str(matrix_size))
 
     # Validate key matrix format and parse into a matrix
     try:
@@ -300,9 +247,9 @@ def view_hill_result():
             if len(row_values) != matrix_size:
                 error_message = f"Baris {i+1} harus memiliki tepat {matrix_size} angka yang dipisahkan koma."
                 return render_template("hill.html",
-                                       inputtext=msg,
-                                       error_message=error_message,
-                                       matrix_size=str(matrix_size),
+                                    inputtext=msg,
+                                    error_message=error_message,
+                                    matrix_size=str(matrix_size),
                                        **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
             # Convert to integers
@@ -312,18 +259,18 @@ def view_hill_result():
             except ValueError:
                 error_message = f"Format input tidak valid pada baris {i+1}. Masukkan angka yang dipisahkan koma."
                 return render_template("hill.html",
-                                       inputtext=msg,
-                                       error_message=error_message,
-                                       matrix_size=str(matrix_size),
+                                    inputtext=msg,
+                                    error_message=error_message,
+                                    matrix_size=str(matrix_size),
                                        **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
     except Exception as e:
         # General format error
         error_message = f"Format matriks tidak valid: {str(e)}"
         return render_template("hill.html",
-                               inputtext=msg,
-                               error_message=error_message,
-                               matrix_size=str(matrix_size),
+                            inputtext=msg,
+                            error_message=error_message,
+                            matrix_size=str(matrix_size),
                                **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
     # Check if matrix is invertible
@@ -332,9 +279,9 @@ def view_hill_result():
     if math.gcd(check_determinant % 26, 26) != 1:
         error_message = f"Matriks {matrix_size}x{matrix_size} ini tidak dapat digunakan sebagai kunci karena tidak memiliki invers dalam modulo 26!"
         return render_template("hill.html",
-                               inputtext=msg,
-                               error_message=error_message,
-                               matrix_size=str(matrix_size),
+                            inputtext=msg,
+                            error_message=error_message,
+                            matrix_size=str(matrix_size),
                                **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
     # Process encryption/decryption
@@ -348,9 +295,9 @@ def view_hill_result():
             if result.startswith("ERROR:"):
                 error_message = result[6:]  # Remove "ERROR:" prefix
                 return render_template("hill.html",
-                                       inputtext=msg,
-                                       error_message=error_message,
-                                       matrix_size=str(matrix_size),
+                                    inputtext=msg,
+                                    error_message=error_message,
+                                    matrix_size=str(matrix_size),
                                        **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
         if request.form["format"] == "block":
@@ -365,18 +312,18 @@ def view_hill_result():
             return send_file(f_path, as_attachment=True)
 
         return render_template("hill.html",
-                               result=result,
-                               inputtext=msg,
-                               matrix_size=str(matrix_size),
+                            result=result,
+                            inputtext=msg,
+                            matrix_size=str(matrix_size),
                                **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
     except Exception as e:
         # Handle any other errors during processing
         error_message = f"Terjadi kesalahan: {str(e)}"
         return render_template("hill.html",
-                               inputtext=msg,
-                               error_message=error_message,
-                               matrix_size=str(matrix_size),
+                            inputtext=msg,
+                            error_message=error_message,
+                            matrix_size=str(matrix_size),
                                **{f"key_{j}": key_values[j] for j in range(len(key_values))})
 
 
