@@ -223,6 +223,30 @@ body {
     font-size: 18px;
 }
 
+/* =========================
+   COPYRIGHT FOOTER
+========================= */
+
+.footer-copyright {
+    text-align: center;
+    padding: 25px 15px;
+    margin-top: 40px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.footer-copyright strong {
+    font-weight: 700;
+}
+
+body:not(.dark-theme) .footer-copyright {
+    color: rgba(0, 0, 0, 0.55);
+}
+
+body.dark-theme .footer-copyright {
+    color: rgba(255, 255, 255, 0.55);
+}
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
     .title {

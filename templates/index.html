@@ -19,16 +19,16 @@
                     </label>
                 </div>
             </div>
-            
+
             <div class="title-wrapper">
                 <div class="title">Aplikasi Kriptografi Klasik</div>
                 <div class="subtitle">Program Enkripsi-Deskripsi dengan Framework Flask!</div>
             </div>
         </div>
-        
+
         <div class="content-section">
             <div class="cipher-label">Pilih Jenis Cipher:</div>
-            
+
             <div class="cipher-list">
                 <a href="{{ url_for('view_cipher_page', cipher='vigenere') }}" class="cipher-card">
                     <div class="icon-container">
@@ -36,73 +36,89 @@
                     </div>
                     <div class="cipher-info">
                         <div class="cipher-title">Vigenère Cipher</div>
-                        <div class="cipher-description">Vigenère Cipher adalah salah satu metode kriptografi klasik yang digunakan untuk mengenkripsi teks 
-                            dengan cara menggabungkan huruf-huruf dari pesan asli (plaintext) dengan huruf-huruf dari kata kunci (key)</div>
+                        <div class="cipher-description">
+                            Vigenère Cipher adalah salah satu metode kriptografi klasik yang digunakan untuk mengenkripsi teks
+                            dengan cara menggabungkan huruf-huruf dari pesan asli (plaintext) dengan huruf-huruf dari kata kunci (key).
+                        </div>
                     </div>
                     <div class="chevron-container">
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </a>
-                
+
                 <a href="{{ url_for('view_cipher_page', cipher='fullvigenere') }}" class="cipher-card">
                     <div class="icon-container">
                         <i class="fas fa-cogs"></i>
                     </div>
                     <div class="cipher-info">
                         <div class="cipher-title">Varian Vigenère Cipher</div>
-                        <div class="cipher-description">Auto-key Vigenère Cipher menggunakan sebagian plainteks itu sendiri setelah kunci awal untuk memperpanjang kunci enkripsi</div>
+                        <div class="cipher-description">
+                            Auto-key Vigenère Cipher menggunakan sebagian plainteks itu sendiri setelah kunci awal untuk memperpanjang kunci enkripsi.
+                        </div>
                     </div>
                     <div class="chevron-container">
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </a>
-                
+
                 <a href="{{ url_for('view_cipher_page', cipher='extvigenere') }}" class="cipher-card">
                     <div class="icon-container">
                         <i class="fas fa-cog"></i>
                     </div>
                     <div class="cipher-info">
                         <div class="cipher-title">Extended Vigenère Cipher</div>
-                        <div class="cipher-description">Extended Vigenère Cipher memperluas algoritma Vigenere agar dapat mengenkripsi semua karakter ASCII (0–255) menggunakan operasi XOR dengan kunci yang diulang</div>
+                        <div class="cipher-description">
+                            Extended Vigenère Cipher memperluas algoritma Vigenere agar dapat mengenkripsi semua karakter ASCII (0–255)
+                            menggunakan operasi XOR dengan kunci yang diulang.
+                        </div>
                     </div>
                     <div class="chevron-container">
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </a>
-                
+
                 <a href="{{ url_for('view_cipher_page', cipher='affine') }}" class="cipher-card">
                     <div class="icon-container">
                         <i class="fas fa-divide"></i>
                     </div>
                     <div class="cipher-info">
                         <div class="cipher-title">Affine Cipher</div>
-                        <div class="cipher-description">Affine Cipher adalah bentuk substitusi monoalfabetik yang mengenkripsi setiap huruf menggunakan fungsi matematika linier berbentuk E(x) = (ax + b) mod 26 dengan syarat a dan 26 relatif prima</div>
+                        <div class="cipher-description">
+                            Affine Cipher adalah bentuk substitusi monoalfabetik yang mengenkripsi setiap huruf menggunakan fungsi matematika
+                            linier berbentuk E(x) = (ax + b) mod 26 dengan syarat a dan 26 relatif prima.
+                        </div>
                     </div>
                     <div class="chevron-container">
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </a>
-                
+
                 <a href="{{ url_for('view_cipher_page', cipher='playfair') }}" class="cipher-card">
                     <div class="icon-container">
                         <i class="fas fa-th-large"></i>
                     </div>
                     <div class="cipher-info">
                         <div class="cipher-title">Playfair Cipher</div>
-                        <div class="cipher-description">Playfair Cipher mengenkripsi pasangan huruf (digraf) menggunakan matriks 5x5 dan aturan posisi untuk menggantikan setiap pasangan dengan huruf lain berdasarkan letak baris dan kolom</div>
+                        <div class="cipher-description">
+                            Playfair Cipher mengenkripsi pasangan huruf (digraf) menggunakan matriks 5x5 dan aturan posisi
+                            untuk menggantikan setiap pasangan dengan huruf lain berdasarkan letak baris dan kolom.
+                        </div>
                     </div>
                     <div class="chevron-container">
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </a>
-                
+
                 <a href="{{ url_for('view_cipher_page', cipher='hill') }}" class="cipher-card">
                     <div class="icon-container">
                         <i class="fas fa-calculator"></i>
                     </div>
                     <div class="cipher-info">
                         <div class="cipher-title">Hill Cipher</div>
-                        <div class="cipher-description">Hill Cipher menggunakan aljabar linear dan matriks invertibel untuk mengenkripsi blok huruf dengan mengalikan vektor huruf dengan matriks kunci modulo 26</div>
+                        <div class="cipher-description">
+                            Hill Cipher menggunakan aljabar linear dan matriks invertibel untuk mengenkripsi blok huruf
+                            dengan mengalikan vektor huruf dengan matriks kunci modulo 26.
+                        </div>
                     </div>
                     <div class="chevron-container">
                         <i class="fas fa-chevron-right"></i>
@@ -110,17 +126,19 @@
                 </a>
             </div>
         </div>
-        
+
+        <footer class="footer-copyright">
+            © <span id="year"></span> Aplikasi Kriptografi Klasik • Made with ❤️ by <strong>Elliza Febriyani</strong>
+        </footer>
+
         <script>
-            // Check for saved theme preference or default to light theme
             const darkModeToggle = document.getElementById('darkmode-toggle');
-            
+
             if (localStorage.getItem('darkMode') === 'enabled') {
                 document.body.classList.add('dark-theme');
                 darkModeToggle.checked = true;
             }
-            
-            // Toggle dark/light mode
+
             darkModeToggle.addEventListener('change', () => {
                 if (darkModeToggle.checked) {
                     document.body.classList.add('dark-theme');
@@ -130,6 +148,8 @@
                     localStorage.setItem('darkMode', 'disabled');
                 }
             });
+
+            document.getElementById('year').textContent = new Date().getFullYear();
         </script>
     </body>
 </html>
